@@ -1,0 +1,282 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<title>{% block title %}{% endblock %}</title>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<!--<meta name="description" content="Astra House llc meat distribution" />-->
+		<meta name="keywords" content="cake distribution, distributor" />
+		<meta name="robots" content="nofollow" />
+		<!--<meta http-equiv="author" content="Anton_K"/>
+		<meta http-equiv="pragma" content="no-cache" />
+		<meta http-equiv="expires" content="Apr 2025 23:59:59 GMT" />-->
+		<link href="https://fonts.googleapis.com/css?family=Nunito+Sans:400,600,700&display=swap" rel="stylesheet">
+		<link href="https://fonts.googleapis.com/css?family=Neuton:300,400,700,800&display=swap" rel="stylesheet">
+		<link rel="stylesheet" type="text/css" href="{% static 'css/normalize.css' %}" />
+		<link rel="stylesheet" href="{% static 'css/slick.css' %}">
+		<link rel="stylesheet" type="text/css" href="{% static 'css/style.css' %}" />
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/ion-rangeslider/2.3.1/css/ion.rangeSlider.min.css"/>
+	</head>
+
+    <body>
+        <header>
+			<div class="header__navigation_box">
+				<div class="wrapper">
+					<div class="header__navigation">
+						<a class="header__logo-mob" href="{% url 'catalog:cakes_catalog' %}">
+							<img class="logo__img" src="{% static 'img/logo1.png' %}" alt="">
+						</a>
+						<div class="menu__container">
+							<div class="menu__container-inner">
+								<a class="header__logo-desk" href="{% url 'catalog:cakes_catalog' %}">
+									<img class="logo__img" src="{% static 'img/logo1.png' %}" alt="">
+								</a>
+								<nav class="navigation">
+									<ul>
+										<li><a href="{% url 'catalog:cakes_catalog' %}">Catalog</a></li>
+										<li><a href="{% url 'catalog:about' %}">About</a></li>
+										<li><a href="{% url 'catalog:contact' %}">Contact</a></li>
+									</ul>
+								</nav>
+								<div class="login__box">
+									<div class="btn__register__box">
+                                        {% if request.user.is_authenticated %}
+										    <a class="btn__register" href="{% url 'account_logout' %}">Log out</a>
+                                        {% else %}
+                                            <a class="btn__register popup__btn" href="#">Register</a>
+                                        {% endif %}
+									</div>
+									<div class="btn__login__box">
+                                        {% if request.user.is_authenticated %}
+                                            <a class="btn__login" href="{% url 'account_profile' %}">{{ request.user.username|title }}</a>
+                                        {% else %}
+                                            <a class="btn__login popup__btn" href="#">Log in</a>
+                                        {% endif %}
+									</div>
+									<a class="basket" href="{% url 'cart:detail_page_cart' %}"><i class="fa fa-shopping-basket" aria-hidden="true"></i><span class="basket__sum">$:&nbsp;{{ cart_total|floatformat:2 }}</span></a>
+								</div>
+							</div>
+						</div>
+						<div class="header__navigation-mob">
+							<a class="basket__mob" href="{% url 'cart:detail_page_cart' %}"><i class="fa fa-shopping-basket" aria-hidden="true"></i><span class="basket__sum">0.00</span></a>
+							<div class="burger__menu">
+								<div class="burger__line-1"></div>
+								<div class="burger__line-2"></div>
+								<div class="burger__line-3"></div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+            {% block header %}
+            {% endblock header %}
+		</header>
+        {% comment %}
+        #
+        #
+        #
+        #
+        #
+        {% endcomment %}
+        {% block content %}
+        {% endblock content %}
+        <footer class="footer">
+			<div class="wrapper">
+				<div class="top_footer">
+					<div class="footer_logo_box">
+						<a class="footer__logo-desk" href="{% url 'catalog:cakes_catalog' %}">
+							<img class="logo__img" src="{% static 'img/logo1.png' %}" alt="">
+						</a>
+						<p class="description_footer">
+							Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+						</p>
+					</div>
+					<div class="f-contact_address">
+						<div class="footer_contacts_box">
+							<span class="contact_title">
+		                        Contacts
+		                    </span>
+		                    <span class="phone_footer">
+		                        <a href="tel:555-555-5555"><i class="fa fa-phone" aria-hidden="true"></i>555-555-5555</a>
+		                    </span>
+		                    <span class="email_footer">
+		                        <a href="mailto:cakeshop@gmail.com">cakeshop@gmail.com</a>
+		                    </span>
+		                    <span class="website_footer">
+		                        <a href="#">https://cakeshop.com</a>
+		                    </span>
+						</div>
+						<div class="footer_address_box">
+							<span class="contact_title">
+		                        Address
+		                    </span>
+		                    <span class="address_footer">
+		                        21 East 28th Street New York, NY 100188
+		                    </span>
+						</div>
+					</div>
+				</div>
+				<div class="footer__bottom">
+					<div class="icon__link-box">Icons made by <a href="https://www.freepik.com" title="Freepik">Freepik</a> from <a href="https://www.flaticon.com/" title="Flaticon">www.flaticon.com</a></div>
+					<div class="copyright__box">
+						<span class="copyright">Copyright © 2021. All rights reserved.</span>
+						<div class="social_footer">
+							<a href="#" class="fb_footer"><i class="fa fa-facebook" aria-hidden="true"></i></a>
+							<a href="#" class="twi_footer"><i class="fa fa-twitter" aria-hidden="true"></i></a>
+							<a href="#" class="yout_footer"><i class="fa fa-youtube-play" aria-hidden="true"></i></a>
+						</div>
+					</div>
+				</div>
+			</div>
+		</footer>
+        <!-- pop ups -->
+		<div class="register__popup popup__overlay">
+			<div class="popups bg-modal">
+				<div class="popup__form">
+					<div class="wrapper">
+						<div class="popup__form-inner">
+							<a href="#" class="close__popup">
+								<svg class="close__popup-svg" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="45" height="45" viewBox="0 0 45 45">
+									<image width="45" height="45" xlink:href="data:img/png;base64,iVBORw0KGgoAAAANSUhEUgAAAC0AAAAtCAYAAAA6GuKaAAADkklEQVRYhc2W204UQRCGf4wvYb+AD+CNkbMYjYmi6yoa46VBUQRPMUqEFUGNMZ5AiD6Ah4iAYGK8UAREn0Tq0jtjvNKUqY6VSi87Mz078F9t9fROf1P9d1U3rK6ujgA4CWAMwB0ULOdcogWJqBvAMIBphv6jno0CGCwSOwk0EfUBeOzjTQCuqufXAVTqBZhFRHRGAwO4x9B3AdxUgzdkGzYC8DkAE2po0jl3ZZMEFQM+ZOLCRUS9cs408FmIPbwYfEDFg5L19QIeV0MPPDAMNKR6jKjY7kDdRUT9BpgzfEmva6Eh1hhScWEZJyLO5iM1NKYz7BWChmRbV5FKvauKAD9RQ+POuf7Q3GrQEFvYqlIXqxDRRQPMluirNp+bS613DgfsMhpN+l+nADxV8WTIElprZdqrYur2iDmsMeozwBO1gJEQGmINnW3unLcjgS+YTseHrjfJH5NCI5DhaxH3lB6uvSoeq3boQkoDDcm2tgofzFsp33GefaviyTTAyACNgFUGUlQV3v6HKg7W4VrKAg2xiW44gwnquG3NfK9IlWGvrNAQm2hr2B3Q6jHAz7ICIxIaUkX0YRwOtHzefu1hrhinYxaNhYY0Gg1aURnvtq1ZDmKUNucADclwg/I1x9sAdKo5E9JMopVHpr0425cB/JTYA/8W7ydqHEmUJzTrPoDvZuyHeD835Q39EsBWM7YFwIeNCj0D4JiK2de/5PceAEt5LZQX9FsAJRWXxOO71VgLgOU8FssDegrAARWX5SNYKwBa1bNmAAux68ZCzwE4rOKS2ESLs9uk4nYAX2IWjYGeNXW4pDJs9dVkfEeMx7NCvwFwUMXlNYC9OONtKm4Rq6RWFuhZgfQ6GrBENXF2O9SzdiJKfTjTQs+ZDPPv1ynfsSAH0quZiD6neUEa6Gnj4S75iCxaMRlvSwOeFJq3/5ABnsoI7LUQAE9klSTQtnF05gDsxeCNKmar1CyHtaDnAo3jXRSmkXPuG4BdarSpFvha0NbD5RRVIpWcc59MOWTwxbTQU8bDdQP2cs4tmQbUSkTBOh6Cnjetue7AXs65ZWnzXlzHV+w8C/0KwH4VFwbs5ZxbNFZpJKKPeo6GnpHu5nWkaGAvsYoG79Dl0EPPm7JWlvvFuikA3uytwtDPjSVC18t1kYC3qLXZKu8Z+rga7EpwWytUzjmu2TvVmnsZeh+AFxzk2OlylXOO7yXb/7kCOPEX9C34YP9Ybl0AAAAASUVORK5CYII="></image>
+								</svg>
+							</a>
+							<div class="popup__title">Register</div>
+							<div class="form__container">
+								<form method="post" name="register" action="{% url 'account_register' %}">
+                                    {% csrf_token %}
+									<div class="input__box"><input class="input__item input__first-name" name="first_name" type="text" placeholder="First name"/><span class="errorMessage disable"></span></div>
+									<div class="input__box"><input class="input__item input__last-name" name="last_name" type="text" placeholder="Last name"/><span class="errorMessage disable"></span></div>
+									<div class="input__box"><input class="input__item input__email" name="email" type="email" placeholder="Email"/><span class="errorMessage disable"></span></div>
+									<div class="input__box"><input class="input__item input__password" name="password" type="password" placeholder="Password"/><span class="errorMessage disable"></span></div>
+									<div class="input__box"><input class="input__item input__password-repeat" name="password2" type="password" placeholder="Repeat password"/><span class="errorMessage disable"></span></div>
+									<div class="popub__btn-box">
+										<button type="submit" class="btn__loader btn__form">
+											<span class="button__text">Submit</span>
+											<span class="btn__loader-box">
+												<svg class="loader__svg" fill="#ffffff" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+													viewBox="0 0 294.843 294.843" style="enable-background:new 0 0 294.843 294.843;" xml:space="preserve">
+													<g>
+														<path d="M147.421,0c-3.313,0-6,2.687-6,6s2.687,6,6,6c74.671,0,135.421,60.75,135.421,135.421s-60.75,135.421-135.421,135.421
+															S12,222.093,12,147.421c0-50.804,28.042-96.902,73.183-120.305c2.942-1.525,4.09-5.146,2.565-8.088
+															c-1.525-2.942-5.147-4.09-8.088-2.565C30.524,41.937,0,92.118,0,147.421c0,81.289,66.133,147.421,147.421,147.421
+															s147.421-66.133,147.421-147.421S228.71,0,147.421,0z"/>
+														<path d="M205.213,71.476c-16.726-12.747-36.71-19.484-57.792-19.484c-52.62,0-95.43,42.81-95.43,95.43s42.81,95.43,95.43,95.43
+															c25.49,0,49.455-9.926,67.479-27.951c2.343-2.343,2.343-6.142,0-8.485c-2.343-2.343-6.143-2.343-8.485,0
+															c-15.758,15.758-36.709,24.436-58.994,24.436c-46.003,0-83.43-37.426-83.43-83.43s37.426-83.43,83.43-83.43
+															c36.894,0,69.843,24.715,80.126,60.104c0.924,3.182,4.253,5.011,7.436,4.087c3.182-0.925,5.012-4.254,4.087-7.436
+															C233.422,101.308,221.398,83.809,205.213,71.476z"/>
+														<path d="M217.773,129.262c-2.344-2.343-6.143-2.343-8.485,0c-2.343,2.343-2.343,6.142,0,8.485l22.57,22.571
+															c1.125,1.125,2.651,1.757,4.243,1.757s3.118-0.632,4.243-1.757l22.57-22.571c2.343-2.343,2.343-6.142,0-8.485
+															c-2.344-2.343-6.143-2.343-8.485,0l-18.328,18.328L217.773,129.262z"/>
+													</g>
+												</svg>
+											</span>
+										</button>
+									</div>
+								</form>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="login__popup popup__overlay">
+			<div class="popups bg-modal">
+				<div class="popup__form">
+					<div class="wrapper">
+						<div class="popup__form-inner">
+							<a href="#" class="close__popup">
+								<svg class="close__popup-svg" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="45" height="45" viewBox="0 0 45 45">
+									<image width="45" height="45" xlink:href="data:img/png;base64,iVBORw0KGgoAAAANSUhEUgAAAC0AAAAtCAYAAAA6GuKaAAADkklEQVRYhc2W204UQRCGf4wvYb+AD+CNkbMYjYmi6yoa46VBUQRPMUqEFUGNMZ5AiD6Ah4iAYGK8UAREn0Tq0jtjvNKUqY6VSi87Mz078F9t9fROf1P9d1U3rK6ujgA4CWAMwB0ULOdcogWJqBvAMIBphv6jno0CGCwSOwk0EfUBeOzjTQCuqufXAVTqBZhFRHRGAwO4x9B3AdxUgzdkGzYC8DkAE2po0jl3ZZMEFQM+ZOLCRUS9cs408FmIPbwYfEDFg5L19QIeV0MPPDAMNKR6jKjY7kDdRUT9BpgzfEmva6Eh1hhScWEZJyLO5iM1NKYz7BWChmRbV5FKvauKAD9RQ+POuf7Q3GrQEFvYqlIXqxDRRQPMluirNp+bS613DgfsMhpN+l+nADxV8WTIElprZdqrYur2iDmsMeozwBO1gJEQGmINnW3unLcjgS+YTseHrjfJH5NCI5DhaxH3lB6uvSoeq3boQkoDDcm2tgofzFsp33GefaviyTTAyACNgFUGUlQV3v6HKg7W4VrKAg2xiW44gwnquG3NfK9IlWGvrNAQm2hr2B3Q6jHAz7ICIxIaUkX0YRwOtHzefu1hrhinYxaNhYY0Gg1aURnvtq1ZDmKUNucADclwg/I1x9sAdKo5E9JMopVHpr0425cB/JTYA/8W7ydqHEmUJzTrPoDvZuyHeD835Q39EsBWM7YFwIeNCj0D4JiK2de/5PceAEt5LZQX9FsAJRWXxOO71VgLgOU8FssDegrAARWX5SNYKwBa1bNmAAux68ZCzwE4rOKS2ESLs9uk4nYAX2IWjYGeNXW4pDJs9dVkfEeMx7NCvwFwUMXlNYC9OONtKm4Rq6RWFuhZgfQ6GrBENXF2O9SzdiJKfTjTQs+ZDPPv1ynfsSAH0quZiD6neUEa6Gnj4S75iCxaMRlvSwOeFJq3/5ABnsoI7LUQAE9klSTQtnF05gDsxeCNKmar1CyHtaDnAo3jXRSmkXPuG4BdarSpFvha0NbD5RRVIpWcc59MOWTwxbTQU8bDdQP2cs4tmQbUSkTBOh6Cnjetue7AXs65ZWnzXlzHV+w8C/0KwH4VFwbs5ZxbNFZpJKKPeo6GnpHu5nWkaGAvsYoG79Dl0EPPm7JWlvvFuikA3uytwtDPjSVC18t1kYC3qLXZKu8Z+rga7EpwWytUzjmu2TvVmnsZeh+AFxzk2OlylXOO7yXb/7kCOPEX9C34YP9Ybl0AAAAASUVORK5CYII="></image>
+								</svg>
+							</a>
+                            <div class="popup__title">Log in</div>
+							<div class="form__container">
+								<form method="post" action="{% url 'account_login' %}">
+                                    {% csrf_token %}
+									<div class="input__box"><input class="input__item input__email" name="email" type="email" placeholder="Email"/><span class="errorMessage disable"></span></div>
+									<div class="input__box"><input class="input__item input__password" name="password" type="password" placeholder="Password"/><span class="errorMessage disable"></span></div>
+                                    <a class="btn__forgot-pass popup__btn popup__btn-link" href="{% url 'password_reset' %}">Forgot password</a>
+									<div class="popub__btn-box">
+										<button type="submit" class="btn__loader btn__form">
+											<span class="button__text">Submit</span>
+											<span class="btn__loader-box">
+												<svg class="loader__svg" fill="#ffffff" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+													viewBox="0 0 294.843 294.843" style="enable-background:new 0 0 294.843 294.843;" xml:space="preserve">
+													<g>
+														<path d="M147.421,0c-3.313,0-6,2.687-6,6s2.687,6,6,6c74.671,0,135.421,60.75,135.421,135.421s-60.75,135.421-135.421,135.421
+															S12,222.093,12,147.421c0-50.804,28.042-96.902,73.183-120.305c2.942-1.525,4.09-5.146,2.565-8.088
+															c-1.525-2.942-5.147-4.09-8.088-2.565C30.524,41.937,0,92.118,0,147.421c0,81.289,66.133,147.421,147.421,147.421
+															s147.421-66.133,147.421-147.421S228.71,0,147.421,0z"/>
+														<path d="M205.213,71.476c-16.726-12.747-36.71-19.484-57.792-19.484c-52.62,0-95.43,42.81-95.43,95.43s42.81,95.43,95.43,95.43
+															c25.49,0,49.455-9.926,67.479-27.951c2.343-2.343,2.343-6.142,0-8.485c-2.343-2.343-6.143-2.343-8.485,0
+															c-15.758,15.758-36.709,24.436-58.994,24.436c-46.003,0-83.43-37.426-83.43-83.43s37.426-83.43,83.43-83.43
+															c36.894,0,69.843,24.715,80.126,60.104c0.924,3.182,4.253,5.011,7.436,4.087c3.182-0.925,5.012-4.254,4.087-7.436
+															C233.422,101.308,221.398,83.809,205.213,71.476z"/>
+														<path d="M217.773,129.262c-2.344-2.343-6.143-2.343-8.485,0c-2.343,2.343-2.343,6.142,0,8.485l22.57,22.571
+															c1.125,1.125,2.651,1.757,4.243,1.757s3.118-0.632,4.243-1.757l22.57-22.571c2.343-2.343,2.343-6.142,0-8.485
+															c-2.344-2.343-6.143-2.343-8.485,0l-18.328,18.328L217.773,129.262z"/>
+													</g>
+												</svg>
+											</span>
+										</button>
+									</div>
+								</form>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+{#		<div class="welcome__popup popup__overlay">#}
+{#			<div class="popups bg-modal">#}
+{#				<div class="popup__form">#}
+{#					<div class="wrapper">#}
+{#						<div class="popup__form-inner">#}
+{#							<a href="#" class="close__popup">#}
+{#								<svg class="close__popup-svg" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="45" height="45" viewBox="0 0 45 45">#}
+{#									<image width="45" height="45" xlink:href="data:img/png;base64,iVBORw0KGgoAAAANSUhEUgAAAC0AAAAtCAYAAAA6GuKaAAADkklEQVRYhc2W204UQRCGf4wvYb+AD+CNkbMYjYmi6yoa46VBUQRPMUqEFUGNMZ5AiD6Ah4iAYGK8UAREn0Tq0jtjvNKUqY6VSi87Mz078F9t9fROf1P9d1U3rK6ujgA4CWAMwB0ULOdcogWJqBvAMIBphv6jno0CGCwSOwk0EfUBeOzjTQCuqufXAVTqBZhFRHRGAwO4x9B3AdxUgzdkGzYC8DkAE2po0jl3ZZMEFQM+ZOLCRUS9cs408FmIPbwYfEDFg5L19QIeV0MPPDAMNKR6jKjY7kDdRUT9BpgzfEmva6Eh1hhScWEZJyLO5iM1NKYz7BWChmRbV5FKvauKAD9RQ+POuf7Q3GrQEFvYqlIXqxDRRQPMluirNp+bS613DgfsMhpN+l+nADxV8WTIElprZdqrYur2iDmsMeozwBO1gJEQGmINnW3unLcjgS+YTseHrjfJH5NCI5DhaxH3lB6uvSoeq3boQkoDDcm2tgofzFsp33GefaviyTTAyACNgFUGUlQV3v6HKg7W4VrKAg2xiW44gwnquG3NfK9IlWGvrNAQm2hr2B3Q6jHAz7ICIxIaUkX0YRwOtHzefu1hrhinYxaNhYY0Gg1aURnvtq1ZDmKUNucADclwg/I1x9sAdKo5E9JMopVHpr0425cB/JTYA/8W7ydqHEmUJzTrPoDvZuyHeD835Q39EsBWM7YFwIeNCj0D4JiK2de/5PceAEt5LZQX9FsAJRWXxOO71VgLgOU8FssDegrAARWX5SNYKwBa1bNmAAux68ZCzwE4rOKS2ESLs9uk4nYAX2IWjYGeNXW4pDJs9dVkfEeMx7NCvwFwUMXlNYC9OONtKm4Rq6RWFuhZgfQ6GrBENXF2O9SzdiJKfTjTQs+ZDPPv1ynfsSAH0quZiD6neUEa6Gnj4S75iCxaMRlvSwOeFJq3/5ABnsoI7LUQAE9klSTQtnF05gDsxeCNKmar1CyHtaDnAo3jXRSmkXPuG4BdarSpFvha0NbD5RRVIpWcc59MOWTwxbTQU8bDdQP2cs4tmQbUSkTBOh6Cnjetue7AXs65ZWnzXlzHV+w8C/0KwH4VFwbs5ZxbNFZpJKKPeo6GnpHu5nWkaGAvsYoG79Dl0EPPm7JWlvvFuikA3uytwtDPjSVC18t1kYC3qLXZKu8Z+rga7EpwWytUzjmu2TvVmnsZeh+AFxzk2OlylXOO7yXb/7kCOPEX9C34YP9Ybl0AAAAASUVORK5CYII="></image>#}
+{#								</svg>#}
+{#							</a>#}
+{#							<div class="popup__title">Welcome <span class="welcome__name"></span>!</div>#}
+{#							<div class="welcome__popup-text">#}
+{#								Lorem Ipsum is simply dummy text of the printing and typesetting industry.#}
+{#							</div>#}
+{#							<div class="popup__link-box">#}
+{#								<a href="#" class="btn__login popup__btn popup-link">Log in</a>#}
+{#							</div>#}
+{#						</div>#}
+{#					</div>#}
+{#				</div>#}
+{#			</div>#}
+{#		</div>#}
+
+		<div class="reset-pass__popup popup__overlay">
+			<div class="popups bg-modal">
+				<div class="popup__form">
+					<div class="wrapper">
+						<div class="popup__form-inner">
+							<a href="#" class="close__popup">
+								<svg class="close__popup-svg" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="45" height="45" viewBox="0 0 45 45">
+									<image width="45" height="45" xlink:href="data:img/png;base64,iVBORw0KGgoAAAANSUhEUgAAAC0AAAAtCAYAAAA6GuKaAAADkklEQVRYhc2W204UQRCGf4wvYb+AD+CNkbMYjYmi6yoa46VBUQRPMUqEFUGNMZ5AiD6Ah4iAYGK8UAREn0Tq0jtjvNKUqY6VSi87Mz078F9t9fROf1P9d1U3rK6ujgA4CWAMwB0ULOdcogWJqBvAMIBphv6jno0CGCwSOwk0EfUBeOzjTQCuqufXAVTqBZhFRHRGAwO4x9B3AdxUgzdkGzYC8DkAE2po0jl3ZZMEFQM+ZOLCRUS9cs408FmIPbwYfEDFg5L19QIeV0MPPDAMNKR6jKjY7kDdRUT9BpgzfEmva6Eh1hhScWEZJyLO5iM1NKYz7BWChmRbV5FKvauKAD9RQ+POuf7Q3GrQEFvYqlIXqxDRRQPMluirNp+bS613DgfsMhpN+l+nADxV8WTIElprZdqrYur2iDmsMeozwBO1gJEQGmINnW3unLcjgS+YTseHrjfJH5NCI5DhaxH3lB6uvSoeq3boQkoDDcm2tgofzFsp33GefaviyTTAyACNgFUGUlQV3v6HKg7W4VrKAg2xiW44gwnquG3NfK9IlWGvrNAQm2hr2B3Q6jHAz7ICIxIaUkX0YRwOtHzefu1hrhinYxaNhYY0Gg1aURnvtq1ZDmKUNucADclwg/I1x9sAdKo5E9JMopVHpr0425cB/JTYA/8W7ydqHEmUJzTrPoDvZuyHeD835Q39EsBWM7YFwIeNCj0D4JiK2de/5PceAEt5LZQX9FsAJRWXxOO71VgLgOU8FssDegrAARWX5SNYKwBa1bNmAAux68ZCzwE4rOKS2ESLs9uk4nYAX2IWjYGeNXW4pDJs9dVkfEeMx7NCvwFwUMXlNYC9OONtKm4Rq6RWFuhZgfQ6GrBENXF2O9SzdiJKfTjTQs+ZDPPv1ynfsSAH0quZiD6neUEa6Gnj4S75iCxaMRlvSwOeFJq3/5ABnsoI7LUQAE9klSTQtnF05gDsxeCNKmar1CyHtaDnAo3jXRSmkXPuG4BdarSpFvha0NbD5RRVIpWcc59MOWTwxbTQU8bDdQP2cs4tmQbUSkTBOh6Cnjetue7AXs65ZWnzXlzHV+w8C/0KwH4VFwbs5ZxbNFZpJKKPeo6GnpHu5nWkaGAvsYoG79Dl0EPPm7JWlvvFuikA3uytwtDPjSVC18t1kYC3qLXZKu8Z+rga7EpwWytUzjmu2TvVmnsZeh+AFxzk2OlylXOO7yXb/7kCOPEX9C34YP9Ybl0AAAAASUVORK5CYII="></image>
+								</svg>
+							</a>
+							<div class="popup__title">Password reset</div>
+							<div class="forgot__pass-text">
+								We have sent you instructions for resetting your password. In case you haven’t received any email, please make sure you provided correct email address.
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+        <!-- end popups -->
+
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+		<script src="{% static 'js/slick.min.js' %}"></script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/ion-rangeslider/2.3.1/js/ion.rangeSlider.min.js"></script>
+		<script src="{% static 'js/main.js' %}"></script>
+	</body>
+</html>

@@ -1,0 +1,302 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}
+{{ cake.cake_name|capfirst  }}
+{% endblock title %}
+
+{% block content %}
+<main class="main">
+    <div class="wrapper">
+        <section class="single__product">
+            <div class="single__product-inner">
+                <div class="single__img-box">
+                    <img src="{{ cake.image.url }}" alt="">
+                </div>
+                <div class="single__detail-box">
+                    <h2 class="single__title">{{ cake.cake_name|capfirst }}</h2>
+                    <div class="single__rating-box">
+                        <form>
+                            <div class="rating">
+                                <div class="rating__inner">
+                                    <div class="rating__active"></div>
+                                    <div id="rating__to_update" class="rating__items-box">
+                                        <input type="radio" class="rating__item" name="rating" value="1">
+                                        <input type="radio" class="rating__item" name="rating" value="2">
+                                        <input type="radio" class="rating__item" name="rating" value="3">
+                                        <input type="radio" class="rating__item" name="rating" value="4">
+                                        <input type="radio" class="rating__item" name="rating" value="5">
+                                    </div>
+                                </div>
+                                <div class="rating__average">{{ cake.get_average_rating }}</div>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="single__detail-item detail__title">Price:<span class="product__price"><span class="price">{{ cake.price }}</span>$</span></div>
+                    <div class="single__detail-item"><span class="detail__title">Category:</span><span class="detail__item">{{ cake.category }}</span></div>
+                    <div class="single__detail-item"><span class="detail__title">Size:</span><span class="detail__item">{{ cake.size }} &nbsp; Inches</span></div>
+                    <div class="single__quantity-box">
+                        <form action="{% url 'cart:add_cake_to_cart' cake.id %}" method="post" class="add__cart-form">
+                            {% csrf_token %}
+                            <div class="add__cart-box">
+                                <button type="button" class="number__minus">-</button>
+                                <input id="add__cart" class="add__cart-input" type="number" name="quantity" value="1" min="1" max="20" required="">
+                                <button type="button" class="number__plus">+</button>
+                            </div>
+                            <button type="submit" class="btn__loader single__basket">
+                                <span class="button__text">Add to cart</span>
+                                <span class="btn__loader-box">
+                                    <svg class="loader__svg" fill="#ffffff" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+                                        viewBox="0 0 294.843 294.843" style="enable-background:new 0 0 294.843 294.843;" xml:space="preserve">
+                                        <g>
+                                            <path d="M147.421,0c-3.313,0-6,2.687-6,6s2.687,6,6,6c74.671,0,135.421,60.75,135.421,135.421s-60.75,135.421-135.421,135.421
+                                                S12,222.093,12,147.421c0-50.804,28.042-96.902,73.183-120.305c2.942-1.525,4.09-5.146,2.565-8.088
+                                                c-1.525-2.942-5.147-4.09-8.088-2.565C30.524,41.937,0,92.118,0,147.421c0,81.289,66.133,147.421,147.421,147.421
+                                                s147.421-66.133,147.421-147.421S228.71,0,147.421,0z"/>
+                                            <path d="M205.213,71.476c-16.726-12.747-36.71-19.484-57.792-19.484c-52.62,0-95.43,42.81-95.43,95.43s42.81,95.43,95.43,95.43
+                                                c25.49,0,49.455-9.926,67.479-27.951c2.343-2.343,2.343-6.142,0-8.485c-2.343-2.343-6.143-2.343-8.485,0
+                                                c-15.758,15.758-36.709,24.436-58.994,24.436c-46.003,0-83.43-37.426-83.43-83.43s37.426-83.43,83.43-83.43
+                                                c36.894,0,69.843,24.715,80.126,60.104c0.924,3.182,4.253,5.011,7.436,4.087c3.182-0.925,5.012-4.254,4.087-7.436
+                                                C233.422,101.308,221.398,83.809,205.213,71.476z"/>
+                                            <path d="M217.773,129.262c-2.344-2.343-6.143-2.343-8.485,0c-2.343,2.343-2.343,6.142,0,8.485l22.57,22.571
+                                                c1.125,1.125,2.651,1.757,4.243,1.757s3.118-0.632,4.243-1.757l22.57-22.571c2.343-2.343,2.343-6.142,0-8.485
+                                                c-2.344-2.343-6.143-2.343-8.485,0l-18.328,18.328L217.773,129.262z"/>
+                                        </g>
+                                    </svg>
+                                </span>
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            <div id="update__your_review" class="single__tabs-box">
+                <a class="tab__current" href="#"></a>
+                <div class="single__tabs">
+                    <a href="#tabSingle__1" class="tabSingle__item">Description</a>
+                    <a href="#tabSingle__2" class="tabSingle__item">Reviews (<span class="reviews__count">{{ cake.cake_to_review.all.count }}</span>)</a>
+                </div>
+                <div class="single__tab-inner">
+                    <div id="tabSingle__1" class="tabSingle__content">
+                        <div class="single__detail-item"><span class="detail__title">Composition:</span><span class="detail__item">{{ cake.composition|capfirst }}</span></div>
+                        <div class="single_description">{{ cake.description }}</div>
+                    </div>
+                    <div id="tabSingle__2" class="review__container tabSingle__content">
+                        <div class="detail__title detail__title-review">Write your review</div>
+                        <form method="post">
+                            {% csrf_token %}
+                            <div class="rating rating__change">
+                                <div class="rating__inner">
+                                    <div class="rating__active"></div>
+                                    <div class="rating__items-box">
+                                        <input id="radio1" type="radio" class="rating__item" name="rating" value="1" required />
+                                        <input id="radio2" type="radio" class="rating__item" name="rating" value="2">
+                                        <input id="radio3" type="radio" class="rating__item" name="rating" value="3">
+                                        <input id="radio4" type="radio" class="rating__item" name="rating" value="4">
+                                        <input id="radio5" type="radio" class="rating__item" name="rating" value="5">
+                                    </div>
+                                </div>
+                                <div class="rating__average">5</div>
+                            </div>
+                            <textarea id="text_to_update" class="textarea__review" name="review" placeholder="Your review" required></textarea>
+                            <button type="submit" class="btn__loader">
+                                <span class="button__text">Confirm</span>
+                                <span class="btn__loader-box">
+                                    <svg class="loader__svg" fill="#ffffff" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+                                        viewBox="0 0 294.843 294.843" style="enable-background:new 0 0 294.843 294.843;" xml:space="preserve">
+                                        <g>
+                                            <path d="M147.421,0c-3.313,0-6,2.687-6,6s2.687,6,6,6c74.671,0,135.421,60.75,135.421,135.421s-60.75,135.421-135.421,135.421
+                                                S12,222.093,12,147.421c0-50.804,28.042-96.902,73.183-120.305c2.942-1.525,4.09-5.146,2.565-8.088
+                                                c-1.525-2.942-5.147-4.09-8.088-2.565C30.524,41.937,0,92.118,0,147.421c0,81.289,66.133,147.421,147.421,147.421
+                                                s147.421-66.133,147.421-147.421S228.71,0,147.421,0z"/>
+                                            <path d="M205.213,71.476c-16.726-12.747-36.71-19.484-57.792-19.484c-52.62,0-95.43,42.81-95.43,95.43s42.81,95.43,95.43,95.43
+                                                c25.49,0,49.455-9.926,67.479-27.951c2.343-2.343,2.343-6.142,0-8.485c-2.343-2.343-6.143-2.343-8.485,0
+                                                c-15.758,15.758-36.709,24.436-58.994,24.436c-46.003,0-83.43-37.426-83.43-83.43s37.426-83.43,83.43-83.43
+                                                c36.894,0,69.843,24.715,80.126,60.104c0.924,3.182,4.253,5.011,7.436,4.087c3.182-0.925,5.012-4.254,4.087-7.436
+                                                C233.422,101.308,221.398,83.809,205.213,71.476z"/>
+                                            <path d="M217.773,129.262c-2.344-2.343-6.143-2.343-8.485,0c-2.343,2.343-2.343,6.142,0,8.485l22.57,22.571
+                                                c1.125,1.125,2.651,1.757,4.243,1.757s3.118-0.632,4.243-1.757l22.57-22.571c2.343-2.343,2.343-6.142,0-8.485
+                                                c-2.344-2.343-6.143-2.343-8.485,0l-18.328,18.328L217.773,129.262z"/>
+                                        </g>
+                                    </svg>
+                                </span>
+                                <input type="hidden" id="review_update"  name="review_update">
+                            </button>
+                        </form>
+                        <h3 class="reviews__title">Reviews</h3>
+                        <div class="review__items-box">
+                            {% for review in cake.cake_to_review.all %}
+                                <div class="review__item">
+                                    <div class="review__item-data">
+                                        <p class="review__name">{{ review.author|capfirst }}</p>
+                                        <time class="review__date" datetime="2021-03-28">{{ review.created }}</time>
+                                        {% if request.user == review.user %}
+                                            <div style="display: flex; margin-left: auto;">
+                                            <a href="#update__your_review" onclick="updateReview('{{ review.id }}', '{{ review.review|escapejs }}', '{{ review.rating }}')">
+                                                <div class="cart__delete-img__box" data-tooltip="Update">
+                                                    <i style="font-size: 24px;" class="edit-post__icon fa fa-pencil" aria-hidden="true" ></i>
+                                                </div>
+                                            </a>
+                                            <a style="margin-left: 15px;" href="#" onclick="openDeletePopup(event, {{ review.id }})">
+                                                <div class="cart__delete-img__box" data-tooltip="Delete">
+                                                    <img class="cart__delete-img" src="{% static 'img/delete.png' %}" alt="delete">
+                                                </div>
+                                            </a>
+                                            </div>
+                                        {% endif %}
+                                    </div>
+                                    <div class="review__item-rating">
+                                        <div class="rating">
+                                            <div class="rating__inner">
+                                                <div class="rating__active"></div>
+                                                <div class="rating__items-box">
+                                                    <input type="radio" class="rating__item" name="rating" value="1">
+                                                    <input type="radio" class="rating__item" name="rating" value="2">
+                                                    <input type="radio" class="rating__item" name="rating" value="3">
+                                                    <input type="radio" class="rating__item" name="rating" value="4">
+                                                    <input type="radio" class="rating__item" name="rating" value="5">
+                                                </div>
+                                            </div>
+                                            <div class="rating__average">{{ review.rating }}</div>
+                                        </div>
+                                    </div>
+                                    <div class="review__text-box">
+                                        <p class="review__text">{{ review.review }}</p>
+                                    </div>
+                                </div>
+                            {% endfor %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <section class="new__products-box">
+            <div class="new__products-title">New products</div>
+            <div class="new__items-box">
+                {% for new_cake in new_cakes %}
+                <div class="product new__item">
+                    <a  class="image__box" href="{{ new_cake.get_absolute_url }}">
+                        <img src="{{ new_cake.image.url }}" alt="">
+                        <div class="image__box-mask"><div>Detail</div></div>
+                    </a>
+                    <div class="product__description">
+                        <h2 class="product__title"><a href="{{ new_cake.get_absolute_url }}">{{ new_cake.cake_name|capfirst }}</a></h2>
+                        <div class="product__subtitle">{{ new_cake.category }}</div>
+                        <div class="product__price-box">Price:<span class="product__price"><span class="price">{{ new_cake.price }}</span>$</span></div>
+                        <div class="button_detail-box">
+                            <a class="btn__loader" href="{{ new_cake.get_absolute_url }}">
+                                <span class="button__text">Detail</span>
+                                <div class="btn__loader-box">
+                                    <svg class="loader__svg" fill="#ffffff" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+                                        viewBox="0 0 294.843 294.843" style="enable-background:new 0 0 294.843 294.843;" xml:space="preserve">
+                                        <g>
+                                            <path d="M147.421,0c-3.313,0-6,2.687-6,6s2.687,6,6,6c74.671,0,135.421,60.75,135.421,135.421s-60.75,135.421-135.421,135.421
+                                                S12,222.093,12,147.421c0-50.804,28.042-96.902,73.183-120.305c2.942-1.525,4.09-5.146,2.565-8.088
+                                                c-1.525-2.942-5.147-4.09-8.088-2.565C30.524,41.937,0,92.118,0,147.421c0,81.289,66.133,147.421,147.421,147.421
+                                                s147.421-66.133,147.421-147.421S228.71,0,147.421,0z"/>
+                                            <path d="M205.213,71.476c-16.726-12.747-36.71-19.484-57.792-19.484c-52.62,0-95.43,42.81-95.43,95.43s42.81,95.43,95.43,95.43
+                                                c25.49,0,49.455-9.926,67.479-27.951c2.343-2.343,2.343-6.142,0-8.485c-2.343-2.343-6.143-2.343-8.485,0
+                                                c-15.758,15.758-36.709,24.436-58.994,24.436c-46.003,0-83.43-37.426-83.43-83.43s37.426-83.43,83.43-83.43
+                                                c36.894,0,69.843,24.715,80.126,60.104c0.924,3.182,4.253,5.011,7.436,4.087c3.182-0.925,5.012-4.254,4.087-7.436
+                                                C233.422,101.308,221.398,83.809,205.213,71.476z"/>
+                                            <path d="M217.773,129.262c-2.344-2.343-6.143-2.343-8.485,0c-2.343,2.343-2.343,6.142,0,8.485l22.57,22.571
+                                                c1.125,1.125,2.651,1.757,4.243,1.757s3.118-0.632,4.243-1.757l22.57-22.571c2.343-2.343,2.343-6.142,0-8.485
+                                                c-2.344-2.343-6.143-2.343-8.485,0l-18.328,18.328L217.773,129.262z"/>
+                                        </g>
+                                    </svg>
+
+                                </div>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </section>
+    </div>
+</main>
+
+<!-- start pop up -->
+    <div class="contact__popup popup__overlay">
+        <div class="pop_up bg-modal">
+            <div class="popup__form">
+                <div class="wrapper">
+                    <div class="popup__form-inner">
+                        <a href="#" class="close__popup">
+                            <svg class="close__popup-svg" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="45" height="45" viewBox="0 0 45 45">
+                                <image width="45" height="45" xlink:href="data:img/png;base64,iVBORw0KGgoAAAANSUhEUgAAAC0AAAAtCAYAAAA6GuKaAAADkklEQVRYhc2W204UQRCGf4wvYb+AD+CNkbMYjYmi6yoa46VBUQRPMUqEFUGNMZ5AiD6Ah4iAYGK8UAREn0Tq0jtjvNKUqY6VSi87Mz078F9t9fROf1P9d1U3rK6ujgA4CWAMwB0ULOdcogWJqBvAMIBphv6jno0CGCwSOwk0EfUBeOzjTQCuqufXAVTqBZhFRHRGAwO4x9B3AdxUgzdkGzYC8DkAE2po0jl3ZZMEFQM+ZOLCRUS9cs408FmIPbwYfEDFg5L19QIeV0MPPDAMNKR6jKjY7kDdRUT9BpgzfEmva6Eh1hhScWEZJyLO5iM1NKYz7BWChmRbV5FKvauKAD9RQ+POuf7Q3GrQEFvYqlIXqxDRRQPMluirNp+bS613DgfsMhpN+l+nADxV8WTIElprZdqrYur2iDmsMeozwBO1gJEQGmINnW3unLcjgS+YTseHrjfJH5NCI5DhaxH3lB6uvSoeq3boQkoDDcm2tgofzFsp33GefaviyTTAyACNgFUGUlQV3v6HKg7W4VrKAg2xiW44gwnquG3NfK9IlWGvrNAQm2hr2B3Q6jHAz7ICIxIaUkX0YRwOtHzefu1hrhinYxaNhYY0Gg1aURnvtq1ZDmKUNucADclwg/I1x9sAdKo5E9JMopVHpr0425cB/JTYA/8W7ydqHEmUJzTrPoDvZuyHeD835Q39EsBWM7YFwIeNCj0D4JiK2de/5PceAEt5LZQX9FsAJRWXxOO71VgLgOU8FssDegrAARWX5SNYKwBa1bNmAAux68ZCzwE4rOKS2ESLs9uk4nYAX2IWjYGeNXW4pDJs9dVkfEeMx7NCvwFwUMXlNYC9OONtKm4Rq6RWFuhZgfQ6GrBENXF2O9SzdiJKfTjTQs+ZDPPv1ynfsSAH0quZiD6neUEa6Gnj4S75iCxaMRlvSwOeFJq3/5ABnsoI7LUQAE9klSTQtnF05gDsxeCNKmar1CyHtaDnAo3jXRSmkXPuG4BdarSpFvha0NbD5RRVIpWcc59MOWTwxbTQU8bDdQP2cs4tmQbUSkTBOh6Cnjetue7AXs65ZWnzXlzHV+w8C/0KwH4VFwbs5ZxbNFZpJKKPeo6GnpHu5nWkaGAvsYoG79Dl0EPPm7JWlvvFuikA3uytwtDPjSVC18t1kYC3qLXZKu8Z+rga7EpwWytUzjmu2TvVmnsZeh+AFxzk2OlylXOO7yXb/7kCOPEX9C34YP9Ybl0AAAAASUVORK5CYII="></image>
+                            </svg>
+                        </a>
+                        <div class="popup__title">Please confirm</div>
+                        <div class="form__container">
+                            <form method="post" action="{% url 'catalog:delete_review' %}">
+                                {% csrf_token %}
+                                <div class="input__box">
+                                    <span style="font-size: 18px" class="errorMessage disable">Are you sure you want to delete this review?</span>
+                                </div>
+                                <div class="popub__btn-box">
+                                    <input id="value__review" type="hidden" name="review" value="">
+                                    <button type="submit" class="btn__loader btn__form">
+                                        <span class="button__text">Delete</span>
+                                        <span class="btn__loader-box">
+                                            <svg class="loader__svg" fill="#ffffff" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+                                                viewBox="0 0 294.843 294.843" style="enable-background:new 0 0 294.843 294.843;" xml:space="preserve">
+                                                <g>
+                                                    <path d="M147.421,0c-3.313,0-6,2.687-6,6s2.687,6,6,6c74.671,0,135.421,60.75,135.421,135.421s-60.75,135.421-135.421,135.421
+                                                        S12,222.093,12,147.421c0-50.804,28.042-96.902,73.183-120.305c2.942-1.525,4.09-5.146,2.565-8.088
+                                                        c-1.525-2.942-5.147-4.09-8.088-2.565C30.524,41.937,0,92.118,0,147.421c0,81.289,66.133,147.421,147.421,147.421
+                                                        s147.421-66.133,147.421-147.421S228.71,0,147.421,0z"/>
+                                                    <path d="M205.213,71.476c-16.726-12.747-36.71-19.484-57.792-19.484c-52.62,0-95.43,42.81-95.43,95.43s42.81,95.43,95.43,95.43
+                                                        c25.49,0,49.455-9.926,67.479-27.951c2.343-2.343,2.343-6.142,0-8.485c-2.343-2.343-6.143-2.343-8.485,0
+                                                        c-15.758,15.758-36.709,24.436-58.994,24.436c-46.003,0-83.43-37.426-83.43-83.43s37.426-83.43,83.43-83.43
+                                                        c36.894,0,69.843,24.715,80.126,60.104c0.924,3.182,4.253,5.011,7.436,4.087c3.182-0.925,5.012-4.254,4.087-7.436
+                                                        C233.422,101.308,221.398,83.809,205.213,71.476z"/>
+                                                    <path d="M217.773,129.262c-2.344-2.343-6.143-2.343-8.485,0c-2.343,2.343-2.343,6.142,0,8.485l22.57,22.571
+                                                        c1.125,1.125,2.651,1.757,4.243,1.757s3.118-0.632,4.243-1.757l22.57-22.571c2.343-2.343,2.343-6.142,0-8.485
+                                                        c-2.344-2.343-6.143-2.343-8.485,0l-18.328,18.328L217.773,129.262z"/>
+                                                </g>
+                                            </svg>
+                                        </span>
+                                    </button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+<!-- end popUP -->
+
+<script>
+const popUp = document.querySelectorAll(".popup");
+let closePopUpContact = document.querySelectorAll('#close_contact');
+
+function openDeletePopup(element, index){
+    let popUpContact = document.querySelector('.contact__popup');
+    document.getElementById("value__review").value = index
+    if(popUpContact){
+        closePopup(popUpContact);
+    }
+}
+
+function closePopup(popUpContact){
+    const popupOverlayAll = document.querySelectorAll('.popup__overlay');
+    if(popupOverlayAll.length > 0){
+        for(let i = 0; i < popupOverlayAll.length; i++){
+            const popupOverlay = popupOverlayAll[i];
+            popupOverlay.classList.remove('active');
+        }
+    }
+
+    if(popUpContact){
+        popUpContact.classList.add('active');
+        document.getElementsByTagName("body")[0].style.overflow = "hidden";
+    }
+}
+
+function updateReview(id, review, rating){
+    document.getElementById("review_update").value = id;
+    document.getElementById("text_to_update").innerHTML = `${review}`;
+    document.getElementById('radio' + parseInt(rating)).checked = true;
+}
+</script>
+{% endblock content %}

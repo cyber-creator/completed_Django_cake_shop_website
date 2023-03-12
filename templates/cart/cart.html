@@ -1,0 +1,132 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}
+Cake Cart
+{% endblock title %}
+{% block header %}
+{% include 'include/background_panel.html' %}
+{% endblock header %}
+
+{% block content %}
+<main class="main">
+    <div class="wrapper">
+        <div class="cart__container">
+            <h2 class="title__cart">Your order</h2>
+            <div class="cart__title-box">
+                <div class="cart__title-item">Product</div>
+                <div class="cart__title-item">Product name</div>
+                <div class="cart__title-item">Availability</div>
+                <div class="cart__title-item cart__title-price">Price</div>
+                <div class="cart__title-item cart__title-quantity">Quantity</div>
+                <div class="cart__title-item">Total</div>
+            </div>
+            <div class="cart__table-box">
+                {% for item in cart %}
+                    {% with cake=item.cake %}
+                        <div class="cart__table-item">
+                            <a href="{% url 'cart:delete_cake_from_cart' cake.id %}" class="cart__product-delete">
+                                <div class="cart__delete-img__box" data-tooltip="Delete">
+                                    <img class="cart__delete-img" src="{% static 'img/delete.png' %}" alt="delete">
+                                </div>
+                            </a>
+                            <a href="{{ cake.get_absolute_url }}" class="cart__table-cell cart__product-img"><img src="{{ cake.image.url }}" alt=""></a>
+                            <a href="#" class="cart__table-cell cart__product-name">{{ cake.cake_name }}</a>
+                            <div class="cart__table-cell cart__product-availability">In stock</div>
+                            <div class="cart__table-cell cart__product-price">${{ cake.price }}</div>
+                            <div class="cart__table-cell cart__product-quantity">
+                                <form class="add__cart-form cart__quantity" action="{% url 'cart:add_cake_to_cart' cake.id %}" method="post">
+                                    {% csrf_token %}
+                                    <div class="add__cart-box">
+                                        <button type="button" class="number__minus">-</button>
+                                        <input class="add__cart-input" type="number" name="quantity" min="1" max="20" required="" value="{{ item.quantity }}">
+                                        <input type="hidden" name="quantity_update" value="True">
+                                        <button type="button" class="number__plus">+</button>
+                                        <button type="submit" name="cart__update" class="cart__update-btn" data-tooltip="Update">
+                                            <span class="cart__update-inner">
+                                                <svg enable-background="new 0 0 511.995 511.995" height="30" viewBox="0 0 511.995 511.995" width="30" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+                                                    <linearGradient id="SVGID_1_" gradientUnits="userSpaceOnUse" x1="288.299" x2="288.299" y1="330.998" y2="30.998">
+                                                        <stop offset="0" stop-color="#bfbfbf"/><stop offset=".5028" stop-color="#bfbfbf"/><stop offset="1" stop-color="#bfbfbf"/>
+                                                    </linearGradient>
+                                                    <linearGradient id="SVGID_2_" gradientUnits="userSpaceOnUse" x1="220.371" x2="220.371" y1="480.998" y2="181.415">
+                                                        <stop offset="0" stop-color="#a32c1a"/><stop offset="1" stop-color="#a32c1a"/>
+                                                    </linearGradient>
+                                                    <g id="Refresh_1_"><g><g><path d="m510.225 218.923c-2.607-4.878-7.69-7.925-13.228-7.925h-19.512c-21.064-103.491-113.628-180-220.488-180-77.432 0-148.477
+                                                        39.067-190.049 104.517-4.545 7.156-2.266 16.588 4.937 20.903l51.533 30.923c6.943 4.189 15.894 2.065 20.303-4.688 25.078-38.613
+                                                        67.427-61.655 113.276-61.655 57.598 0 108.472 36.899 127.295 90h-7.295c-5.537 0-10.62 3.047-13.228 7.925s-2.329 10.796.747
+                                                        15.396l60 90c2.783 4.175 7.471 6.68 12.48 6.68s9.697-2.505 12.48-6.68l60-90c3.064-4.601 3.357-10.519.749-15.396z"
+                                                        fill="url(#SVGID_1_)"/></g></g><g><g><path d="m435.349 366.755-46.318-38.599c-6.901-5.725-17.119-4.164-22.046 3.135-25.225
+                                                        37.383-67.09 59.707-111.987 59.707-57.598 0-108.472-36.899-127.295-90h7.295c5.537 0 10.62-3.047
+                                                        13.228-7.925s2.329-10.796-.747-15.396l-60-90c-5.566-8.35-19.395-8.35-24.961 0l-60 90c-3.062 4.6-3.354
+                                                        10.518-.747 15.396s7.69 7.925 13.228 7.925h19.512c21.064 103.491 113.628 180 220.488 180 72.334 0 140.728-35.127
+                                                        182.93-93.97 4.583-6.387 3.455-15.234-2.58-20.273z" fill="url(#SVGID_2_)"/></g></g></g>
+                                                </svg>
+                                            </span>
+                                        </button>
+                                    </div>
+                                </form>
+                            </div>
+                            <div class="cart__table-cell cart__product-total">${{ item.total_price }}</div>
+                        </div>
+                    {% endwith %}
+                {% empty %}
+                    <h3>Your shopping cart is empty</h3>
+                {% endfor %}
+            </div>
+            <div class="cart__table-footer">
+                <div class="total__price-title">Total price:</div>
+                <div class="total__price-box">$<span class="total__price">{{ cart_total_price|floatformat:2 }}</span></div>
+            </div>
+            <div class="cart__btn-box">
+                <a href="{% url 'catalog:cakes_catalog' %}" class="btn__loader cart__back-btn">
+                    <span class="button__text">Back to shop</span>
+                    <div class="btn__loader-box">
+                        <svg class="loader__svg" fill="#ffffff" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+                            viewBox="0 0 294.843 294.843" style="enable-background:new 0 0 294.843 294.843;" xml:space="preserve">
+                            <g>
+                                <path d="M147.421,0c-3.313,0-6,2.687-6,6s2.687,6,6,6c74.671,0,135.421,60.75,135.421,135.421s-60.75,135.421-135.421,135.421
+                                    S12,222.093,12,147.421c0-50.804,28.042-96.902,73.183-120.305c2.942-1.525,4.09-5.146,2.565-8.088
+                                    c-1.525-2.942-5.147-4.09-8.088-2.565C30.524,41.937,0,92.118,0,147.421c0,81.289,66.133,147.421,147.421,147.421
+                                    s147.421-66.133,147.421-147.421S228.71,0,147.421,0z"/>
+                                <path d="M205.213,71.476c-16.726-12.747-36.71-19.484-57.792-19.484c-52.62,0-95.43,42.81-95.43,95.43s42.81,95.43,95.43,95.43
+                                    c25.49,0,49.455-9.926,67.479-27.951c2.343-2.343,2.343-6.142,0-8.485c-2.343-2.343-6.143-2.343-8.485,0
+                                    c-15.758,15.758-36.709,24.436-58.994,24.436c-46.003,0-83.43-37.426-83.43-83.43s37.426-83.43,83.43-83.43
+                                    c36.894,0,69.843,24.715,80.126,60.104c0.924,3.182,4.253,5.011,7.436,4.087c3.182-0.925,5.012-4.254,4.087-7.436
+                                    C233.422,101.308,221.398,83.809,205.213,71.476z"/>
+                                <path d="M217.773,129.262c-2.344-2.343-6.143-2.343-8.485,0c-2.343,2.343-2.343,6.142,0,8.485l22.57,22.571
+                                    c1.125,1.125,2.651,1.757,4.243,1.757s3.118-0.632,4.243-1.757l22.57-22.571c2.343-2.343,2.343-6.142,0-8.485
+                                    c-2.344-2.343-6.143-2.343-8.485,0l-18.328,18.328L217.773,129.262z"/>
+                            </g>
+                        </svg>
+
+                    </div>
+                </a>
+                {% if cart|length > 0 %}
+                    <a href="{% url 'orders:new_order' %}" class="btn__loader checkout__btn">
+                        <span class="button__text">Checkout</span>
+                        <div class="btn__loader-box">
+                            <svg class="loader__svg" fill="#ffffff" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+                                viewBox="0 0 294.843 294.843" style="enable-background:new 0 0 294.843 294.843;" xml:space="preserve">
+                                <g>
+                                    <path d="M147.421,0c-3.313,0-6,2.687-6,6s2.687,6,6,6c74.671,0,135.421,60.75,135.421,135.421s-60.75,135.421-135.421,135.421
+                                        S12,222.093,12,147.421c0-50.804,28.042-96.902,73.183-120.305c2.942-1.525,4.09-5.146,2.565-8.088
+                                        c-1.525-2.942-5.147-4.09-8.088-2.565C30.524,41.937,0,92.118,0,147.421c0,81.289,66.133,147.421,147.421,147.421
+                                        s147.421-66.133,147.421-147.421S228.71,0,147.421,0z"/>
+                                    <path d="M205.213,71.476c-16.726-12.747-36.71-19.484-57.792-19.484c-52.62,0-95.43,42.81-95.43,95.43s42.81,95.43,95.43,95.43
+                                        c25.49,0,49.455-9.926,67.479-27.951c2.343-2.343,2.343-6.142,0-8.485c-2.343-2.343-6.143-2.343-8.485,0
+                                        c-15.758,15.758-36.709,24.436-58.994,24.436c-46.003,0-83.43-37.426-83.43-83.43s37.426-83.43,83.43-83.43
+                                        c36.894,0,69.843,24.715,80.126,60.104c0.924,3.182,4.253,5.011,7.436,4.087c3.182-0.925,5.012-4.254,4.087-7.436
+                                        C233.422,101.308,221.398,83.809,205.213,71.476z"/>
+                                    <path d="M217.773,129.262c-2.344-2.343-6.143-2.343-8.485,0c-2.343,2.343-2.343,6.142,0,8.485l22.57,22.571
+                                        c1.125,1.125,2.651,1.757,4.243,1.757s3.118-0.632,4.243-1.757l22.57-22.571c2.343-2.343,2.343-6.142,0-8.485
+                                        c-2.344-2.343-6.143-2.343-8.485,0l-18.328,18.328L217.773,129.262z"/>
+                                </g>
+                            </svg>
+
+                        </div>
+                    </a>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</main>
+{% endblock content %}

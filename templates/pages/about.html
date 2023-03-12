@@ -1,0 +1,83 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}
+    about
+{% endblock title %}
+{#            #####################################}
+{#######################################}
+{% block content %}
+    <div class="header__bg">
+        <img class="header__img" src="{% static 'img/header-img.jpg' %}" alt="">
+        <div class="header__content wrapper">
+            <h1 class="header__title">About</h1>
+        </div>
+    </div>
+
+{#    #################}
+		<main>
+			<section class="about_top">
+				<div class="about_top_inner">
+					<div class="about_top_img">
+						<img src="{% static 'img/about_img.jpg' %}" alt="">
+					</div>
+					<div class="about_top_text">
+						<h2>About Us</h2>
+						<p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.</p>
+						<p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.</p>
+					</div>
+				</div>
+			</section>
+			<section class="shipping_box">
+				<div class="wrapper">
+					<div class="shipping_box_inner">
+						<h3 class="title_shipping">Shipping</h3>
+						<p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.</p>
+						<p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.</p>
+					</div>
+				</div>
+			</section>
+			<section class="about_advantages">
+				<div class="wrapper">
+					<div class="about_advantages_inner">
+						<div class="item_advantages">
+							<div class="advantages_title_box">
+								<i class="fa fa-book" aria-hidden="true"></i>
+								<h3>Unique Recipes</h3>
+							</div>
+							<div class="description_advantages">
+								<p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged.</p>
+							</div>
+						</div>
+						<div class="item_advantages">
+							<div class="advantages_title_box">
+								<i class="fa fa-leaf" aria-hidden="true"></i>
+								<h3>Farm products</h3>
+							</div>
+							<div class="description_advantages">
+								<p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged.</p>
+							</div>
+						</div>
+						<div class="item_advantages">
+							<div class="advantages_title_box">
+								<i class="fa fa-birthday-cake" aria-hidden="true"></i>
+								<h3>Degustation</h3>
+							</div>
+							<div class="description_advantages">
+								<p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged.</p>
+							</div>
+						</div>
+						<div class="item_advantages">
+							<div class="advantages_title_box">
+								<i class="fa fa-truck" aria-hidden="true"></i>
+								<h3>Shipping</h3>
+							</div>
+							<div class="description_advantages">
+								<p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged.</p>
+							</div>
+						</div>
+					</div>
+				</div>
+			</section>	
+		</main> 
+{% endblock content %}
+{###########################}

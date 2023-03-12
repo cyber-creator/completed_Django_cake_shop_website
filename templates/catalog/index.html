@@ -1,0 +1,172 @@
+{% extends 'base.html' %}
+{% block title %}
+Cake Shop
+{% endblock title %}
+{% block header %}
+{% include 'include/slider.html' %}
+{% endblock header %}
+
+{% block content %}
+<main>
+    <div class="main__inner">
+        <aside class="sidebar">
+            <div class="sidebar__categories-box">
+                <h3 class="sidebar__categories-title">Categories</h3>
+                <ul class="sidebar__categories">
+                    {% if filtered_cake_by_category %}
+                        <li><a href="{% url 'catalog:cakes_catalog' %}">All</a></li>
+                    {% else %}
+                        <li class="selected"><a href="{% url 'catalog:cakes_catalog' %}">All</a></li>
+                    {% endif %}
+
+                    {% for category in categories %}
+                        {% if category.slug == filtered_cake_by_category.slug %}
+                            <li class="selected"><a href="{{ category.get_absolute_url }}">{{ category.category_name }}</a></li>
+                        {% else %}
+                            <li><a href="{{ category.get_absolute_url }}">{{ category.category_name }}</a></li>
+                        {% endif %}
+                    {% endfor %}
+                </ul>
+            </div>
+            <div class="sidebar__price-box">
+                <h3 class="sidebar__price-title">Price filter</h3>
+                <form class="sidebar__price" action="{% url 'catalog:filter_by_price' %}" method="get">
+                    <input id="get-start" type="text" class="js-range-slider" name="get_start_price" value=""
+                        data-min="0"
+                        data-max="300"
+                        data-from="0"
+                        data-to="300"
+                    />
+
+                    <input id="get-end" type="hidden" name="get_end_price" value="">
+                    <input id="get-category" type="hidden" name="selected" value="{{ filtered_cake_by_category.id }}">
+                    <div class="price__filter-box">
+                        <div class="price__filter">
+                            <div class="price__filter-inner">
+                                <span>Price: </span>
+                                <span>$<span class="js-input-from">0</span></span>
+                                <span>&mdash;</span>
+                                <span>$<span class="js-input-to">300</span></span>
+                            </div>
+                        </div>
+                        <div class="price__filter-btn">
+                            <button onclick="addPriceRange()" type="submit" class="btn__loader">
+                                <span class="button__text">Filter</span>
+                                <span class="btn__loader-box">
+                                    <svg class="loader__svg" fill="#ffffff" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+                                        viewBox="0 0 294.843 294.843" style="enable-background:new 0 0 294.843 294.843;" xml:space="preserve">
+                                        <g>
+                                            <path d="M147.421,0c-3.313,0-6,2.687-6,6s2.687,6,6,6c74.671,0,135.421,60.75,135.421,135.421s-60.75,135.421-135.421,135.421
+                                                S12,222.093,12,147.421c0-50.804,28.042-96.902,73.183-120.305c2.942-1.525,4.09-5.146,2.565-8.088
+                                                c-1.525-2.942-5.147-4.09-8.088-2.565C30.524,41.937,0,92.118,0,147.421c0,81.289,66.133,147.421,147.421,147.421
+                                                s147.421-66.133,147.421-147.421S228.71,0,147.421,0z"/>
+                                            <path d="M205.213,71.476c-16.726-12.747-36.71-19.484-57.792-19.484c-52.62,0-95.43,42.81-95.43,95.43s42.81,95.43,95.43,95.43
+                                                c25.49,0,49.455-9.926,67.479-27.951c2.343-2.343,2.343-6.142,0-8.485c-2.343-2.343-6.143-2.343-8.485,0
+                                                c-15.758,15.758-36.709,24.436-58.994,24.436c-46.003,0-83.43-37.426-83.43-83.43s37.426-83.43,83.43-83.43
+                                                c36.894,0,69.843,24.715,80.126,60.104c0.924,3.182,4.253,5.011,7.436,4.087c3.182-0.925,5.012-4.254,4.087-7.436
+                                                C233.422,101.308,221.398,83.809,205.213,71.476z"/>
+                                            <path d="M217.773,129.262c-2.344-2.343-6.143-2.343-8.485,0c-2.343,2.343-2.343,6.142,0,8.485l22.57,22.571
+                                                c1.125,1.125,2.651,1.757,4.243,1.757s3.118-0.632,4.243-1.757l22.57-22.571c2.343-2.343,2.343-6.142,0-8.485
+                                                c-2.344-2.343-6.143-2.343-8.485,0l-18.328,18.328L217.773,129.262z"/>
+                                        </g>
+                                    </svg>
+                                </span>
+                            </button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="sidebar__new-box">
+                <h3 class="sidebar__new-title">New products</h3>
+                <div class="sidebar__new">
+                    {% for new_arrival in new_cakes %}
+                        <div class="sidebar__new-item">
+                            <a class="sidebar__new-img-box" href="{{ new_arrival.get_absolute_url }}">
+                                <img class="sidebar__new-img" src="{{ new_arrival.image.url }}" alt="">
+                                <div class="sidebar__new-mask"><div>Detail</div></div>
+                            </a>
+                            <div class="sidebar__new-info">
+                                <a class="sidebar__info-title" href="{{ new_arrival.get_absolute_url }}">{{ new_arrival.cake_name }}</a>
+                                <div class="sidebar__info-subtitle">Desserts</div>
+                                <div class="sidebar__info-price"><span class="price">{{ new_arrival.price }}</span>$</div>
+                            </div>
+                        </div>
+                    {% endfor %}
+
+                </div>
+            </div>
+        </aside>
+        <section class="catalog">
+            <div class="products__container">
+                {% for cake in cakes %}
+                    <div class="product">
+                        <a  class="image__box" href="{{ cake.get_absolute_url }}">
+                            <img src="{{ cake.image.url }}" alt="">
+                            <div class="image__box-mask"><div>Detail</div></div>
+                        </a>
+                        <div class="product__description">
+                            <h2 class="product__title"><a href="{{ cake.get_absolute_url }}">{{ cake.cake_name }}</a></h2>
+                            <div class="product__subtitle">{{ cake.category }}</div>
+                            <div class="product__price-box">Price:<span class="product__price"><span class="price">{{ cake.price }}</span>$</span></div>
+                            <div class="button_detail-box">
+                                <a class="btn__loader" href="{{ cake.get_absolute_url }}">
+                                    <span class="button__text">Detail</span>
+                                    <div class="btn__loader-box">
+                                        <svg class="loader__svg" fill="#ffffff" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+                                            viewBox="0 0 294.843 294.843" style="enable-background:new 0 0 294.843 294.843;" xml:space="preserve">
+                                            <g>
+                                                <path d="M147.421,0c-3.313,0-6,2.687-6,6s2.687,6,6,6c74.671,0,135.421,60.75,135.421,135.421s-60.75,135.421-135.421,135.421
+                                                    S12,222.093,12,147.421c0-50.804,28.042-96.902,73.183-120.305c2.942-1.525,4.09-5.146,2.565-8.088
+                                                    c-1.525-2.942-5.147-4.09-8.088-2.565C30.524,41.937,0,92.118,0,147.421c0,81.289,66.133,147.421,147.421,147.421
+                                                    s147.421-66.133,147.421-147.421S228.71,0,147.421,0z"/>
+                                                <path d="M205.213,71.476c-16.726-12.747-36.71-19.484-57.792-19.484c-52.62,0-95.43,42.81-95.43,95.43s42.81,95.43,95.43,95.43
+                                                    c25.49,0,49.455-9.926,67.479-27.951c2.343-2.343,2.343-6.142,0-8.485c-2.343-2.343-6.143-2.343-8.485,0
+                                                    c-15.758,15.758-36.709,24.436-58.994,24.436c-46.003,0-83.43-37.426-83.43-83.43s37.426-83.43,83.43-83.43
+                                                    c36.894,0,69.843,24.715,80.126,60.104c0.924,3.182,4.253,5.011,7.436,4.087c3.182-0.925,5.012-4.254,4.087-7.436
+                                                    C233.422,101.308,221.398,83.809,205.213,71.476z"/>
+                                                <path d="M217.773,129.262c-2.344-2.343-6.143-2.343-8.485,0c-2.343,2.343-2.343,6.142,0,8.485l22.57,22.571
+                                                    c1.125,1.125,2.651,1.757,4.243,1.757s3.118-0.632,4.243-1.757l22.57-22.571c2.343-2.343,2.343-6.142,0-8.485
+                                                    c-2.344-2.343-6.143-2.343-8.485,0l-18.328,18.328L217.773,129.262z"/>
+                                            </g>
+                                        </svg>
+
+                                    </div>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+
+            {% if cakes.has_other_pages %}
+                <ul class="pagination">
+                    {% if cakes.has_previous %}
+                        <li class="pagination__item"><a  href="?page={{ cakes.previous_page_number }}&selected={{ filtered_cake_by_category.id }}&get_start_price={{ get_start_price }}&get_end_price={{ get_end_price }}"><i class="fa fa-chevron-left" aria-hidden="true"></i></a></li>
+                    {% endif %}
+                    {% for k in cakes.paginator.page_range %}
+                        {% if cakes.number == k %}
+                            <li class="pagination__item active"><a>{{ k }}</a></li>
+                        {% elif k > cakes.number|add:'-2' and k < cakes.number|add:'2' %}
+                            <li class="pagination__item"><a href="?page={{ k }}&selected={{ filtered_cake_by_category.id }}&get_start_price={{ get_start_price }}&get_end_price={{ get_end_price }}">{{ k }}</a></li>
+                        {% endif %}
+                    {% endfor %}
+                    {% if cakes.has_next %}
+                        <li class="pagination__item"><a href="?page={{ cakes.next_page_number }}&selected={{ filtered_cake_by_category.id }}&get_start_price={{ get_start_price }}&get_end_price={{ get_end_price }}"><i class="fa fa-chevron-right" aria-hidden="true"></i></a></li>
+                    {% endif %}
+                </ul>
+            {% endif %}
+
+        </section>
+    </div>
+</main>
+<script>
+function addPriceRange(){
+    let getStart = document.getElementsByClassName('irs-from')[0].innerHTML;
+    let getEnd = document.getElementsByClassName('irs-to')[0].innerHTML;
+    document.getElementById('get-start').value = getStart
+    document.getElementById('get-end').value = getEnd
+}
+</script>
+{% endblock content %}
+
+

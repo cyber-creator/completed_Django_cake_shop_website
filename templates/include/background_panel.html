@@ -1,0 +1,11 @@
+{% load static %}
+<div class="header__bg">
+    <img class="header__img" src="{% static 'img/header-img.jpg' %}" alt="">
+    <div class="header__content wrapper">
+        {% if background_title %}
+            <h1 class="header__title">{{ background_title }}</h1>
+        {% else %}
+            <h1 class="header__title">Cart</h1>
+        {% endif %}
+    </div>
+</div>

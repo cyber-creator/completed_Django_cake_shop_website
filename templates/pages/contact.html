@@ -1,0 +1,175 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}
+    contacts
+{% endblock title %}
+{#            ###########################################################}
+{% block content %}
+			<div class="header__bg">
+				<img class="header__img" src="{% static 'img/header-img.jpg' %}" alt="">
+				<div class="header__content wrapper">
+					<h1 class="header__title">Contact</h1>
+				</div>
+			</div>
+
+		<main>
+			<div class="contact">
+				<div class="wrapper">
+					<div class="contact_top_box">
+						<div class="contact_data">
+							<div class="contact_address_box contact_data_item">
+								<div class="contact_title">Address:</div>
+								<div class="contact_description">21 East 28th Street New York, NY 100188</div>
+							</div>
+							<div class="contact_phone_box contact_data_item">
+								<div class="contact_title">Phone:</div>
+								<div class="contact_description"><a href="tel:555-555-5555"><i class="fa fa-phone" aria-hidden="true"></i>555-555-5555</a></div>
+							</div>
+							<div class="contact_email_box contact_data_item">
+								<div class="contact_title">Email:</div>
+								<div class="contact_description"><a href="mailto:1meat@gmail.com">cakeshop@gmail.com</a></div>
+							</div>
+							<div class="contact_website_box contact_data_item">
+								<div class="contact_title">Website:</div>
+								<div class="contact_description"><a href="#">https://cakeshop.com</a></div>
+							</div>
+						</div>
+						<div class="contact_sotial">
+							<div class="sotial_box">
+								<a href="#" class="icon_item fb_footer"><i class="fa fa-facebook" aria-hidden="true"></i></a>
+								<span>Facebook</span>
+							</div>
+							<div class="sotial_box">
+								<a href="#" class="icon_item twi_footer"><i class="fa fa-twitter" aria-hidden="true"></i></a>
+								<span>Twitter</span>
+							</div>
+							<div class="sotial_box">
+								<a href="#" class="icon_item yout_footer"><i class="fa fa-youtube-play" aria-hidden="true"></i></a>
+								<span>Youtube</span>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<section class="form">
+				<div class="wrapper">
+					<div class="respond">
+		                <h3 class="form_title">Get in touch with us</h3>
+		                <form onsubmit="ContactFormSubmit(event)" method="post" id="form_to__reset" action="{% url 'catalog:contact' %}">
+                            {% csrf_token %}
+		                	<div class="input_box">
+			                    <input class="input_item" id="contact_name" name="name" type="text" required placeholder="Type your name"/>
+		                        <input class="input_item" id="contact_email" name="email" type="email" required placeholder="Type your email"/>
+		                        <input class="input_item" id="contact_phone" name="phone_number" type="tel" required placeholder="Type your phone"/>
+			                </div>
+		                    <textarea name="subject" id="contact_message" placeholder="Type your message" required></textarea>
+		                    <div class="form_button_box"><button class="btn__loader button_submit" type="submit">
+								<span class="button__text">Send</span>
+										<span class="btn__loader-box">
+											<svg class="loader__svg" fill="#ffffff" version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+												viewBox="0 0 294.843 294.843" style="enable-background:new 0 0 294.843 294.843;" xml:space="preserve">
+												<g>
+													<path d="M147.421,0c-3.313,0-6,2.687-6,6s2.687,6,6,6c74.671,0,135.421,60.75,135.421,135.421s-60.75,135.421-135.421,135.421
+														S12,222.093,12,147.421c0-50.804,28.042-96.902,73.183-120.305c2.942-1.525,4.09-5.146,2.565-8.088
+														c-1.525-2.942-5.147-4.09-8.088-2.565C30.524,41.937,0,92.118,0,147.421c0,81.289,66.133,147.421,147.421,147.421
+														s147.421-66.133,147.421-147.421S228.71,0,147.421,0z"/>
+													<path d="M205.213,71.476c-16.726-12.747-36.71-19.484-57.792-19.484c-52.62,0-95.43,42.81-95.43,95.43s42.81,95.43,95.43,95.43
+														c25.49,0,49.455-9.926,67.479-27.951c2.343-2.343,2.343-6.142,0-8.485c-2.343-2.343-6.143-2.343-8.485,0
+														c-15.758,15.758-36.709,24.436-58.994,24.436c-46.003,0-83.43-37.426-83.43-83.43s37.426-83.43,83.43-83.43
+														c36.894,0,69.843,24.715,80.126,60.104c0.924,3.182,4.253,5.011,7.436,4.087c3.182-0.925,5.012-4.254,4.087-7.436
+														C233.422,101.308,221.398,83.809,205.213,71.476z"/>
+													<path d="M217.773,129.262c-2.344-2.343-6.143-2.343-8.485,0c-2.343,2.343-2.343,6.142,0,8.485l22.57,22.571
+														c1.125,1.125,2.651,1.757,4.243,1.757s3.118-0.632,4.243-1.757l22.57-22.571c2.343-2.343,2.343-6.142,0-8.485
+														c-2.344-2.343-6.143-2.343-8.485,0l-18.328,18.328L217.773,129.262z"/>
+												</g>
+											</svg>
+										</span>
+							</button></div>
+		                </form>
+	            	</div>
+				</div>
+			</section>
+			<div class="map">
+				<iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3022.8191693115473!2d-73.98786488424206!3d40.744004379328516!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x89c259a7bca988f9%3A0xca246636086e3941!2zMjEgRSAyOHRoIFN0LCBOZXcgWW9yaywgTlkgMTAwMTYsINCh0KjQkA!5e0!3m2!1sru!2sby!4v1575060296882!5m2!1sru!2sby" style="border:0;" allowfullscreen=""></iframe>
+			</div>
+		</main>
+
+        <!-- start pop up -->
+            <div class="contact__popup popup__overlay">
+                <div class="pop_up bg-modal">
+                    <div class="popup__container">
+                        <div class="wrapper">
+                            <div style="background: #252d31; max-width: 600px; width: 100%; padding: 60px 30px;" class="popup__container-inner">
+                                    <span class="sign__text">
+                                        <h2 style="margin-bottom: 40px; font-size: 26px; text-align: center; color: #e7e6e2" id="text__to_update" class="page-"></h2 >
+                                        <button style="font-size: large; cursor: pointer; background: transparent; margin-right: 15px;" type="button" name="comment_button" class="close__popup">
+                                            <svg class="close__popup-svg" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="45" height="45" viewBox="0 0 45 45">
+                                                <image width="45" height="45" xlink:href="data:img/png;base64,iVBORw0KGgoAAAANSUhEUgAAAC0AAAAtCAYAAAA6GuKaAAADkklEQVRYhc2W204UQRCGf4wvYb+AD+CNkbMYjYmi6yoa46VBUQRPMUqEFUGNMZ5AiD6Ah4iAYGK8UAREn0Tq0jtjvNKUqY6VSi87Mz078F9t9fROf1P9d1U3rK6ujgA4CWAMwB0ULOdcogWJqBvAMIBphv6jno0CGCwSOwk0EfUBeOzjTQCuqufXAVTqBZhFRHRGAwO4x9B3AdxUgzdkGzYC8DkAE2po0jl3ZZMEFQM+ZOLCRUS9cs408FmIPbwYfEDFg5L19QIeV0MPPDAMNKR6jKjY7kDdRUT9BpgzfEmva6Eh1hhScWEZJyLO5iM1NKYz7BWChmRbV5FKvauKAD9RQ+POuf7Q3GrQEFvYqlIXqxDRRQPMluirNp+bS613DgfsMhpN+l+nADxV8WTIElprZdqrYur2iDmsMeozwBO1gJEQGmINnW3unLcjgS+YTseHrjfJH5NCI5DhaxH3lB6uvSoeq3boQkoDDcm2tgofzFsp33GefaviyTTAyACNgFUGUlQV3v6HKg7W4VrKAg2xiW44gwnquG3NfK9IlWGvrNAQm2hr2B3Q6jHAz7ICIxIaUkX0YRwOtHzefu1hrhinYxaNhYY0Gg1aURnvtq1ZDmKUNucADclwg/I1x9sAdKo5E9JMopVHpr0425cB/JTYA/8W7ydqHEmUJzTrPoDvZuyHeD835Q39EsBWM7YFwIeNCj0D4JiK2de/5PceAEt5LZQX9FsAJRWXxOO71VgLgOU8FssDegrAARWX5SNYKwBa1bNmAAux68ZCzwE4rOKS2ESLs9uk4nYAX2IWjYGeNXW4pDJs9dVkfEeMx7NCvwFwUMXlNYC9OONtKm4Rq6RWFuhZgfQ6GrBENXF2O9SzdiJKfTjTQs+ZDPPv1ynfsSAH0quZiD6neUEa6Gnj4S75iCxaMRlvSwOeFJq3/5ABnsoI7LUQAE9klSTQtnF05gDsxeCNKmar1CyHtaDnAo3jXRSmkXPuG4BdarSpFvha0NbD5RRVIpWcc59MOWTwxbTQU8bDdQP2cs4tmQbUSkTBOh6Cnjetue7AXs65ZWnzXlzHV+w8C/0KwH4VFwbs5ZxbNFZpJKKPeo6GnpHu5nWkaGAvsYoG79Dl0EPPm7JWlvvFuikA3uytwtDPjSVC18t1kYC3qLXZKu8Z+rga7EpwWytUzjmu2TvVmnsZeh+AFxzk2OlylXOO7yXb/7kCOPEX9C34YP9Ybl0AAAAASUVORK5CYII="></image>
+                                            </svg>
+                                        </button>
+                                    </span>
+                                    <p style="font-size: 18px;" id="lover_text__to_update" class="page-404__text"></p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- end popUP -->
+
+        <script>
+            const popUp = document.querySelectorAll(".popup");
+            let closePopUpContact = document.querySelectorAll('#close_contact');
+
+            function openContactPopup(element, contactInfo){
+                    let popUpContact = document.querySelector('.contact__popup');
+                    document.querySelector('#text__to_update').innerText = `Dear: ${contactInfo[0]}`
+                    document.querySelector('#lover_text__to_update').innerHTML = `<span class="sign__text">Your information was send, and we will send our respond to your email: ${contactInfo[1]}</span></p>`;
+                    if(popUpContact){
+                        closePopup(popUpContact);
+                    }
+            }
+
+            function closePopup(popUpContact){
+                const popupOverlayAll = document.querySelectorAll('.popup__overlay');
+                if(popupOverlayAll.length > 0){
+                    for(let i = 0; i < popupOverlayAll.length; i++){
+                        const popupOverlay = popupOverlayAll[i];
+                        popupOverlay.classList.remove('active');
+                    }
+                }
+
+                if(popUpContact){
+                    popUpContact.classList.add('active');
+                    document.getElementsByTagName("body")[0].style.overflow = "hidden";
+                }
+            }
+
+            function ContactFormSubmit(event){
+                event.preventDefault();
+                let contact_name = document.getElementById('contact_name').value;
+                let contact_email = document.getElementById('contact_email').value;
+                let contact_phone = document.getElementById('contact_phone').value;
+                let contact_message = document.getElementById('contact_message').value;
+                let formReset = document.getElementById('form_to__reset');
+                $.ajax({
+                    type: 'POST',
+                    url: '{% url "catalog:contact" %}',
+                    data: {
+                        name: contact_name,
+                        email: contact_email,
+                        phone_number: contact_phone,
+                        subject: contact_message,
+                        csrfmiddlewaretoken: $('input[name=csrfmiddlewaretoken]').val(),
+                        action: 'post'
+                },
+                success: function (json){
+                    let formReset = document.getElementById('form_to__reset');
+                    let contactInfo = [contact_name, contact_email];
+                    openContactPopup(this, contactInfo);
+                    formReset.reset();
+                }
+            })
+        }
+        </script>
+{#        ########################################################################}
+{% endblock content %}

@@ -1,0 +1,248 @@
+{% extends 'base.html' %}
+{% block title %}
+Checkout
+{% endblock title %}
+{% block header %}
+{% include 'include/background_panel.html' %}
+{% endblock header %}
+
+{% block content %}
+<main>
+    <section class="checkout__box">
+        <div class="wrapper">
+            <form method="post" id="payment-form" class="checkout__form">
+                {% csrf_token %}
+                <div class="checkout__data">
+                    <h2 class="checkout__data-title">Billing detail</h2>
+                    <div class="checkout__data-inner">
+                        <div class="checkout__data-item">
+                            <label class="checkout__data-label">First name:</label>
+                            <input type="text" name="first_name" class="checkout__data-input" value="{{ form.first_name.value }}">
+                        </div>
+                        <div class="checkout__data-item">
+                            <label class="checkout__data-label">Last name:</label>
+                            <input type="text" name="last_name" class="checkout__data-input" value="{{ form.first_name.value|default_if_none:"" }}">
+                        </div>
+                        <div class="checkout__data-item">
+                            <label class="checkout__data-label">Address:</label>
+                            <input type="text" name="address" class="checkout__data-input" value="{{ form.address.value|default_if_none:"" }}">
+                        </div>
+                        <div class="checkout__data-item">
+                            <label class="checkout__data-label">Postal code:</label>
+                            <input type="text" name="postal_code" class="checkout__data-input" value="{{ form.postal_code.value|default_if_none:"" }}">
+                        </div>
+                        <div class="checkout__data-item">
+                            <label class="checkout__data-label">City:</label>
+                            <input type="text" name="city" class="checkout__data-input" value="{{ form.city.value|default_if_none:"" }}">
+                        </div>
+                        <div class="checkout__data-item">
+                            <label class="checkout__data-label">State:</label>
+                            <input type="text" name="state" class="checkout__data-input" value="{{ form.state.value|default_if_none:"" }}">
+                        </div>
+                        <div class="checkout__data-item">
+                            <label class="checkout__data-label">Phone:</label>
+                            <input type="text" name="phone" class="checkout__data-input" value="{{ form.phone.value|default_if_none:"" }}">
+                        </div>
+                        <div class="checkout__data-item">
+                            <label class="checkout__data-label">Email:</label>
+                            <input type="email" name="email" class="checkout__data-input" value="{{ form.email.value|default_if_none:"" }}">
+                        </div>
+                    </div>
+                    {% if request.user.is_anonymous %}
+                        <div class="register__link-box">Already registered?<a href="{% url 'account_logins' %}" class="btn__login popup__btn register__link">Log in</a></div>
+                    {% endif %}
+                    <div class="checkout__data-textarea">
+                        <label class="checkout__data-label">Order notes:</label>
+                        <textarea class="data__textarea" name="note" placeholder="Your note to the order"></textarea>
+                    </div>
+                </div>
+                <div class="checkout__order">
+                    <h2 class="checkout__order-title">Your order</h2>
+                    <div class="checkout__order-item order__item-table">
+                        <div class="order__item-inner">
+                            <p class="order__item-title">Product</p>
+                            <p class="order__item-title order-table__title">Total</p>
+                        </div>
+                    </div>
+                    <div class="checkout__order-inner">
+                        <div class="checkout__order-item">
+                            {% for item in cart_items %}
+                                {% with cake=item.cake %}
+                                    <div class="order__item-product">
+                                        <p class="order__product-title">{{ item.cake }}<span class="order__product-count-box">×<span class="order__product-count">{{ item.quantity }}</span></span></p>
+                                        <p class="order__product-price">${{ cake.price }}</p>
+                                    </div>
+                                {% endwith %}
+                            {% endfor %}
+                        </div>
+                        <div class="checkout__order-item">
+                            <div class="order__item-inner">
+                                <p class="order__item-title">Subtotal:</p>
+                                <p class="order__product-subtotal">${{ cart_total_price }}</p>
+                            </div>
+                        </div>
+                        <div class="checkout__order-item checkout__transport-box">
+                            <p class="order__item-title">Shipping</p>
+                            <div class="checkout__transport">
+                                {% for shipping_type in shipping_choices %}
+                                    <label class="radio__label checkout__transport-item">
+                                        <input type="radio" onclick="addShipping({{ shipping_type.price }})"  class="radio__input" name="delivery" value="{{ shipping_type.id }}" >
+                                        <span class="radio__text">
+                                            <span class="radio__text-inner">{{ shipping_type.delivery_type|title }}</span>
+                                            <span class="transport__price">${{ shipping_type.price }}</span>
+                                        </span>
+                                    </label>
+                                {% endfor %}
+                            </div>
+                        </div>
+                        <div class="checkout__order-total">
+                            <div class="order__item-inner">
+                                <p class="order__item-title">Total:</p>
+                                <p id="total__amount" class="order__total">${{ cart_total_price }}</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="order__payment">
+                        <p class="order__item-title">Payment</p>
+                        <div class="form-row">
+                        <div style="color: #e7e6e2;" id="card-element">
+                          <!-- A Stripe Element will be inserted here. -->
+                        </div>
+                          <!-- Used to display form errors. -->
+
+                        <div id="card-errors" role="alert"></div>
+                        </div>
+                    </div>
+                    <div class="cart__btn-box order__btn-box">
+                        <a href="#" class="btn__loader cart__back-btn">
+                            <span class="button__text">Back to shop</span>
+                            <div class="btn__loader-box">
+                                <svg class="loader__svg" fill="#ffffff" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+                                    viewBox="0 0 294.843 294.843" style="enable-background:new 0 0 294.843 294.843;" xml:space="preserve">
+                                    <g>
+                                        <path d="M147.421,0c-3.313,0-6,2.687-6,6s2.687,6,6,6c74.671,0,135.421,60.75,135.421,135.421s-60.75,135.421-135.421,135.421
+                                            S12,222.093,12,147.421c0-50.804,28.042-96.902,73.183-120.305c2.942-1.525,4.09-5.146,2.565-8.088
+                                            c-1.525-2.942-5.147-4.09-8.088-2.565C30.524,41.937,0,92.118,0,147.421c0,81.289,66.133,147.421,147.421,147.421
+                                            s147.421-66.133,147.421-147.421S228.71,0,147.421,0z"/>
+                                        <path d="M205.213,71.476c-16.726-12.747-36.71-19.484-57.792-19.484c-52.62,0-95.43,42.81-95.43,95.43s42.81,95.43,95.43,95.43
+                                            c25.49,0,49.455-9.926,67.479-27.951c2.343-2.343,2.343-6.142,0-8.485c-2.343-2.343-6.143-2.343-8.485,0
+                                            c-15.758,15.758-36.709,24.436-58.994,24.436c-46.003,0-83.43-37.426-83.43-83.43s37.426-83.43,83.43-83.43
+                                            c36.894,0,69.843,24.715,80.126,60.104c0.924,3.182,4.253,5.011,7.436,4.087c3.182-0.925,5.012-4.254,4.087-7.436
+                                            C233.422,101.308,221.398,83.809,205.213,71.476z"/>
+                                        <path d="M217.773,129.262c-2.344-2.343-6.143-2.343-8.485,0c-2.343,2.343-2.343,6.142,0,8.485l22.57,22.571
+                                            c1.125,1.125,2.651,1.757,4.243,1.757s3.118-0.632,4.243-1.757l22.57-22.571c2.343-2.343,2.343-6.142,0-8.485
+                                            c-2.344-2.343-6.143-2.343-8.485,0l-18.328,18.328L217.773,129.262z"/>
+                                    </g>
+                                </svg>
+
+                            </div>
+                        </a>
+                        <button type="submit" class="btn__loader checkout__btn">
+                            <span class="button__text">Place order</span>
+                            <div class="btn__loader-box">
+                                <svg class="loader__svg" fill="#ffffff" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+                                    viewBox="0 0 294.843 294.843" style="enable-background:new 0 0 294.843 294.843;" xml:space="preserve">
+                                    <g>
+                                        <path d="M147.421,0c-3.313,0-6,2.687-6,6s2.687,6,6,6c74.671,0,135.421,60.75,135.421,135.421s-60.75,135.421-135.421,135.421
+                                            S12,222.093,12,147.421c0-50.804,28.042-96.902,73.183-120.305c2.942-1.525,4.09-5.146,2.565-8.088
+                                            c-1.525-2.942-5.147-4.09-8.088-2.565C30.524,41.937,0,92.118,0,147.421c0,81.289,66.133,147.421,147.421,147.421
+                                            s147.421-66.133,147.421-147.421S228.71,0,147.421,0z"/>
+                                        <path d="M205.213,71.476c-16.726-12.747-36.71-19.484-57.792-19.484c-52.62,0-95.43,42.81-95.43,95.43s42.81,95.43,95.43,95.43
+                                            c25.49,0,49.455-9.926,67.479-27.951c2.343-2.343,2.343-6.142,0-8.485c-2.343-2.343-6.143-2.343-8.485,0
+                                            c-15.758,15.758-36.709,24.436-58.994,24.436c-46.003,0-83.43-37.426-83.43-83.43s37.426-83.43,83.43-83.43
+                                            c36.894,0,69.843,24.715,80.126,60.104c0.924,3.182,4.253,5.011,7.436,4.087c3.182-0.925,5.012-4.254,4.087-7.436
+                                            C233.422,101.308,221.398,83.809,205.213,71.476z"/>
+                                        <path d="M217.773,129.262c-2.344-2.343-6.143-2.343-8.485,0c-2.343,2.343-2.343,6.142,0,8.485l22.57,22.571
+                                            c1.125,1.125,2.651,1.757,4.243,1.757s3.118-0.632,4.243-1.757l22.57-22.571c2.343-2.343,2.343-6.142,0-8.485
+                                            c-2.344-2.343-6.143-2.343-8.485,0l-18.328,18.328L217.773,129.262z"/>
+                                    </g>
+                                </svg>
+
+                            </div>
+                        </button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </section>
+</main>
+<script src="https://js.stripe.com/v3/"></script>
+<script>
+      // Create a Stripe client.
+      const stripe = Stripe('pk_test_51IHJqRGmiTbu4RfNdPIO5nkTDQWNnjeYotjPPfFlKxf28TesIhNouksw9deYXt2HcL1H3PQwwiMm0hYDl0sMkHam00lsBPkVeJ');
+
+      // Create an instance of Elements.
+      let elements = stripe.elements();
+
+      // Custom styling can be passed to options when creating an Element.
+      // (Note that this demo uses a wider set of styles than the guide below.)
+      let style = {
+        base: {
+          color: '#aab7c4',
+          fontFamily: '"Helvetica Neue", Helvetica, sans-serif',
+          fontSmoothing: 'antialiased',
+          fontSize: '16px',
+          '::placeholder': {
+            color: '#aab7c4'
+          }
+        },
+        invalid: {
+          color: '#fa755a',
+          iconColor: '#fa755a'
+        }
+      };
+
+      // Create an instance of the card Element.
+      let card = elements.create('card', { style: style });
+
+      // Add an instance of the card Element into the `card-element` <div>.
+      card.mount('#card-element');
+      // Handle real-time validation errors from the card Element.
+      card.on('change', function (event) {
+        let displayError = document.getElementById('card-errors');
+        if (event.error) {
+          displayError.textContent = event.error.message;
+        } else {
+          displayError.textContent = '';
+        }
+      });
+
+      // Handle form submission.
+      let form = document.getElementById('payment-form');
+      form.addEventListener('submit', function (event) {
+        event.preventDefault();
+
+        stripe.createToken(card).then(function (result) {
+          if (result.error) {
+            // Inform the user if there was an error.
+            let errorElement = document.getElementById('card-errors');
+            errorElement.textContent = result.error.message;
+          } else {
+            // Send the token to your server.
+            stripeTokenHandler(result.token);
+          }
+        });
+      });
+
+      // Submit the form with the token ID.
+      function stripeTokenHandler(token) {
+        // Insert the token ID into the form so it gets submitted to the server
+        let form = document.getElementById('payment-form');
+        let hiddenInput = document.createElement('input');
+        hiddenInput.setAttribute('type', 'hidden');
+        hiddenInput.setAttribute('name', 'stripeToken');
+        hiddenInput.setAttribute('value', token.id);
+        form.appendChild(hiddenInput);
+
+        // Submit the form
+        form.submit();
+      }
+
+    function addShipping(price){
+        let calcTotal = price + {{ cart_total_price }};
+        let totalPrice = document.getElementById("total__amount").innerText = calcTotal;
+        totalPrice = "$" + totalPrice;
+        document.getElementById("total__amount").innerHTML = totalPrice;
+    }
+</script>
+{% endblock content %}
